@@ -9,7 +9,7 @@
 
 #include <omp.h>
 /* Include polybench common header. */
-#include "polybench.h"
+#include "../polybench.h"
 
 /* Include benchmark-specific header. */
 #include "gemver.h"

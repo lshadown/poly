@@ -13,5 +13,5 @@ IF(USE_OpenMP)
 ENDIF()
 
 
-add_executable(poly main.c "polybench.c" polybench.h cholesky.c cholesky.h gemver.c gemver.h symm.c symm.h syr2k.c syr2k.h)
+add_executable(poly main.c "polybench.c" polybench.h cholesky/cholesky.c cholesky/cholesky.h gemver/gemver.c gemver/gemver.h symm/symm.c symm/symm.h syr2k/syr2k.c syr2k/syr2k.h 2mm/2mm.c 2mm/2mm.h)
 target_link_libraries(poly m)
