@@ -4,6 +4,8 @@
 #include "symm/symm.h"
 #include "syr2k/syr2k.h"
 #include "2mm/2mm.h"
+#include <string.h>
+#include <stdlib.h>
 
 double calculateAverage(double *tab, int attempts){
     double sum = 0.0;
@@ -159,16 +161,52 @@ void _2mm(int attempt){
 
 }
 
+
+void runAlgorithm(char*algorithm, int attempts){
+    if(strcmp(algorithm, "gemever") == 0){
+        gemever(attempts);
+    }else if(strcmp(algorithm, "symm") == 0 ){
+        symm(attempts);
+
+    }else if(strcmp(algorithm, "syr2k") == 0){
+        syr2k(attempts);
+
+    } else if (strcmp(algorithm, "2mm") == 0){
+        _2mm(attempts);
+
+    }else{
+        printf("Algorithm not found\n");
+    }
+}
+
 int main(int argc, char** argv) {
-    //gemever(3);
-    //symm(3); -- not work
-    //syr2k(3);
-    _2mm(3);
+    int attempts = 3;
 
+    if(argc == 2 && strcmp(argv[1], "--help")==0){
+        printf("----------Help Page ---------------\n");
+        printf("-a Select algorithm to test. Available algorithms: gemever, symm, syr2k, 2mm \n");
+        printf("-c Number of tries. Set to 3 by default.\n");
+        printf("--help Help page\n");
+    }
+    if(argc > 5){
+        printf("To many arguments\n");
+        return -1;
+    }
+    if(strcmp(argv[1], "-c") == 0 && argv[2] != NULL){
+        attempts = atoi(argv[2]);
+    }
+    if(argc >= 4 && strcmp(argv[3], "-c") == 0 && argv[4] != NULL){
+        attempts = atof(argv[4]);
+    }
 
-
-
+    if(strcmp(argv[1], "-a") == 0 && argv[2] != NULL){
+        runAlgorithm(argv[2], attempts);
+    }
+    if(argc >= 4 && strcmp(argv[3], "-a") == 0 && argv[4] != NULL){
+        runAlgorithm(argv[4], attempts);
+    }
     return 0;
 }
+
 
 
