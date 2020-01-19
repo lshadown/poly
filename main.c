@@ -18,7 +18,7 @@ double calculateAverage(double *tab, int attempts){
 void saveTabToFile(double *tab, int attempts, char *fileName){
     FILE *fp;
     fp = fopen(fileName, "w+");
-    if(fp == NULL) //if file does not exist, create it
+    if(fp == NULL)
     {
         fp = fopen(fileName, "wb");
     }
@@ -89,8 +89,8 @@ void symm(int attempt){
     printf("Synchro execution time: %f \n", calculateAverage(synchro_tab, attempt));
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
     //printf("Transposition + Parallel execution time: %f \n", calculateAverage(trans_par_tab, attempt));
-    saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/gemver_synchro.txt");
-    saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/gemver_pa.txt");
+    saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/symm_synchro.txt");
+    saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/symm_pa.txt");
     //saveTabToFile(trans_par_tab, attempt, "/home/lshadown/Projects/issfResult/gemver_trans_par.txt");
 
 }
@@ -156,8 +156,8 @@ void _2mm(int attempt){
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
     printf("Transposition + Parallel execution time: %f \n", calculateAverage(trans_par_tab, attempt));
     saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/2mmm_synchro.txt");
-    saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/syr2k_pa.txt");
-    saveTabToFile(trans_par_tab, attempt, "/home/lshadown/Projects/issfResult/syr2k_trans_par.txt");
+    saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/2mmm_pa.txt");
+    saveTabToFile(trans_par_tab, attempt, "/home/lshadown/Projects/issfResult/2mmm_trans_par.txt");
 
 }
 
