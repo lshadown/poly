@@ -32,8 +32,10 @@ void gemever(int attempt){
     double synchro_tab[attempt];
     double pa_tab[attempt];
     double trans_par_tab[attempt];
+    double tile_tab[attempt];
+    double tile_trans_tab[attempt];
     //synchro
-    int synchro =0, par =0, trans_par = 0;
+    int synchro =0, par =0, trans_par = 0, tile = 0, tile_trans =0;
     while(synchro != attempt){
         double result = run_gemever();
         synchro_tab[synchro] = result;
@@ -52,9 +54,25 @@ void gemever(int attempt){
         trans_par++;
     }
 
+    //tile
+    while(tile != attempt){
+        double result = run_gemever_tile();
+        tile_tab[tile] = result;
+        tile++;
+    }
+
+/*    //tile_trans
+    while(tile_trans != attempt){
+        double result = run_gemever_tile_trans();
+        tile_trans_tab[tile_trans] = result;
+        tile_trans++;
+    }*/
+
     printf("Synchro execution time: %f \n", calculateAverage(synchro_tab, attempt));
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
     printf("Transposition + Parallel execution time: %f \n", calculateAverage(trans_par_tab, attempt));
+    printf("Tiling execution time: %f \n", calculateAverage(tile_tab, attempt));
+    printf("Transposition + Tiling execution time: %f \n", calculateAverage(tile_trans_tab, attempt));
 
     saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/gemver_synchro.txt");
     saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/gemver_pa.txt");
@@ -80,11 +98,11 @@ void symm(int attempt){
         par++;
     }
     //trans_pa
-    /*while(trans_par != attempt){
-        double result = run_gemever_trans_pa();
+    while(trans_par != attempt){
+        double result = run_symm_trans_pa();
         trans_par_tab[trans_par] = result;
         trans_par++;
-    }*/
+    }
 
     printf("Synchro execution time: %f \n", calculateAverage(synchro_tab, attempt));
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
@@ -99,8 +117,10 @@ void syr2k(int attempt){
     double synchro_tab[attempt];
     double pa_tab[attempt];
     double trans_par_tab[attempt];
+    double trans_tailing_tab[attempt];
+
     //synchro
-    int synchro =0, par =0, trans_par = 0;
+    int synchro =0, par =0, trans_par = 0, trans_tailing=0;
     while(synchro != attempt){
         double result = run_syr2k();
         synchro_tab[synchro] = result;
@@ -113,15 +133,24 @@ void syr2k(int attempt){
         par++;
     }
     //trans_pa
-    while(trans_par != attempt){
-        double result = run_gemever_trans_pa();
+    /*while(trans_par != attempt){
+        double result = run_syr2k_trans_pa();
         trans_par_tab[trans_par] = result;
         trans_par++;
+    }*/
+
+    //tran_tiling
+    while(trans_tailing != attempt){
+        double result = run_syr2k_trans_tiling();
+        trans_tailing_tab[trans_tailing] = result;
+        trans_tailing++;
     }
 
     printf("Synchro execution time: %f \n", calculateAverage(synchro_tab, attempt));
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
     printf("Transposition + Parallel execution time: %f \n", calculateAverage(trans_par_tab, attempt));
+    printf("Transposition + Tailing execution time: %f \n", calculateAverage(trans_tailing_tab, attempt));
+
     saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/syr2k_synchro.txt");
     saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/syr2k_pa.txt");
     saveTabToFile(trans_par_tab, attempt, "/home/lshadown/Projects/issfResult/syr2k_trans_par.txt");
@@ -132,8 +161,10 @@ void _2mm(int attempt){
     double synchro_tab[attempt];
     double pa_tab[attempt];
     double trans_par_tab[attempt];
+    double tile_tab[attempt];
+    double tile_trans_tab[attempt];
     //synchro
-    int synchro =0, par =0, trans_par = 0;
+    int synchro =0, par =0, trans_par = 0, tile = 0, tile_trans = 0 ;
     while(synchro != attempt){
         double result = run_2mm();
         synchro_tab[synchro] = result;
@@ -151,13 +182,30 @@ void _2mm(int attempt){
         trans_par_tab[trans_par] = result;
         trans_par++;
     }
+    //tile
+    while(tile != attempt){
+        double result = run_2mm_tile();
+        tile_tab[tile] = result;
+        tile++;
+    }
+    //trans_pa
+/*    while(tile_trans != attempt){
+        double result = run_2mm_tile_trans();
+        tile_trans_tab[tile_trans] = result;
+        tile_trans++;
+    }*/
 
     printf("Synchro execution time: %f \n", calculateAverage(synchro_tab, attempt));
     printf("Parallel  execution time: %f \n", calculateAverage(pa_tab, attempt));
     printf("Transposition + Parallel execution time: %f \n", calculateAverage(trans_par_tab, attempt));
+    printf("Tiling execution time: %f \n", calculateAverage(tile_tab, attempt));
+    printf("Transposition + Tiling execution time: %f \n", calculateAverage(tile_trans_tab, attempt));
+
+
     saveTabToFile(synchro_tab, attempt, "/home/lshadown/Projects/issfResult/2mmm_synchro.txt");
     saveTabToFile(pa_tab, attempt,  "/home/lshadown/Projects/issfResult/2mmm_pa.txt");
     saveTabToFile(trans_par_tab, attempt, "/home/lshadown/Projects/issfResult/2mmm_trans_par.txt");
+    saveTabToFile(tile_tab, attempt, "/home/lshadown/Projects/issfResult/2mmm_tile.txt");
 
 }
 

@@ -7,6 +7,9 @@
 extern double run_gemever();
 extern double run_gemever_pa();
 extern double run_gemever_trans_pa();
+extern double run_gemever_tile();
+extern double run_gemever_tile_trans();
+
 
 /* Default to LARGE_DATASET. */
 # if !defined(MINI_DATASET) && !defined(SMALL_DATASET) && !defined(MEDIUM_DATASET) && !defined(LARGE_DATASET) && !defined(EXTRALARGE_DATASET)

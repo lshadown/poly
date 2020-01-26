@@ -14,6 +14,11 @@
 /* Include benchmark-specific header. */
 #include "cholesky.h"
 
+#define ceild(n,d)  ceil(((double)(n))/((double)(d)))
+#define floord(n,d) floor(((double)(n))/((double)(d)))
+#define max(x,y)    ((x) > (y)? (x) : (y))
+#define min(x,y)    ((x) < (y)? (x) : (y))
+
 
 /* Array initialization. */
 static
@@ -96,6 +101,124 @@ int i, j, k;
 #pragma endscop
 
 }
+
+static
+void kernel_cholesky_pa(int n,
+                     DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+{
+    int i, j, k;
+
+
+    int t1, t2, t3;
+    int lb, ub, lbp, ubp, lb2, ub2;
+    register int lbv, ubv;
+/* Start of CLooG code */
+    if (_PB_N >= 1) {
+        A[0][0] = SQRT_FUN(A[0][0]);;
+        for (t1=1;t1<=min(2,_PB_N-1);t1++) {
+            A[t1][0] = A[t1][0] / A[0][0];;
+            A[t1][t1] = A[t1][t1] - A[t1][0] * A[t1][0];;
+        }
+        if (_PB_N >= 3) {
+            A[1][1] = SQRT_FUN(A[1][1]);;
+        }
+        for (t1=3;t1<=_PB_N-1;t1++) {
+            A[t1][0] = A[t1][0] / A[0][0];;
+            A[t1][t1] = A[t1][t1] - A[t1][0] * A[t1][0];;
+            lbp=1;
+            ubp=floord(t1-1,2);
+#pragma omp parallel for private(lbv,ubv,t3)
+            for (t2=lbp;t2<=ubp;t2++) {
+                for (t3=0;t3<=t2-1;t3++) {
+                    A[(t1-t2)][t2]=A[(t1-t2)][t2]-A[(t1-t2)][t3]*A[t2][t3];;
+                }
+                A[(t1-t2)][t2] = A[(t1-t2)][t2] / A[t2][t2];;
+                A[(t1-t2)][(t1-t2)] = A[(t1-t2)][(t1-t2)] - A[(t1-t2)][t2] * A[(t1-t2)][t2];;
+            }
+            if (t1%2 == 0) {
+                A[(t1/2)][(t1/2)] = SQRT_FUN(A[(t1/2)][(t1/2)]);;
+            }
+        }
+        for (t1=_PB_N;t1<=2*_PB_N-3;t1++) {
+            lbp=t1-_PB_N+1;
+            ubp=floord(t1-1,2);
+#pragma omp parallel for private(lbv,ubv,t3)
+            for (t2=lbp;t2<=ubp;t2++) {
+                for (t3=0;t3<=t2-1;t3++) {
+                    A[(t1-t2)][t2]=A[(t1-t2)][t2]-A[(t1-t2)][t3]*A[t2][t3];;
+                }
+                A[(t1-t2)][t2] = A[(t1-t2)][t2] / A[t2][t2];;
+                A[(t1-t2)][(t1-t2)] = A[(t1-t2)][(t1-t2)] - A[(t1-t2)][t2] * A[(t1-t2)][t2];;
+            }
+            if (t1%2 == 0) {
+                A[(t1/2)][(t1/2)] = SQRT_FUN(A[(t1/2)][(t1/2)]);;
+            }
+        }
+        if (_PB_N >= 2) {
+            A[(_PB_N-1)][(_PB_N-1)] = SQRT_FUN(A[(_PB_N-1)][(_PB_N-1)]);;
+        }
+    }
+
+}
+
+static
+void kernel_cholesky_trans_pa(int n,
+                        DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+{
+    int i, j, k;
+
+    int t1, t2, t3;
+    int lb, ub, lbp, ubp, lb2, ub2;
+    register int lbv, ubv;
+/* Start of CLooG code */
+    if (_PB_N >= 1) {
+        A[0][0] = SQRT_FUN(A[0][0]);;
+        for (t1=1;t1<=min(2,_PB_N-1);t1++) {
+            A[t1][0] = A[t1][0] / A[0][0];;
+            A[t1][t1] = A[t1][t1] - A[t1][0] * A[t1][0];;
+        }
+        if (_PB_N >= 3) {
+            A[1][1] = SQRT_FUN(A[1][1]);;
+        }
+        for (t1=3;t1<=_PB_N-1;t1++) {
+            A[t1][0] = A[t1][0] / A[0][0];;
+            A[t1][t1] = A[t1][t1] - A[t1][0] * A[t1][0];;
+            lbp=1;
+            ubp=floord(t1-1,2);
+#pragma omp parallel for private(lbv,ubv,t3)
+            for (t2=lbp;t2<=ubp;t2++) {
+                for (t3=0;t3<=t2-1;t3++) {
+                    A[(t1-t2)][t2]=A[(t1-t2)][t2]-A[(t1-t2)][t3]*A[t2][t3];;
+                }
+                A[(t1-t2)][t2] = A[(t1-t2)][t2] / A[t2][t2];;
+                A[(t1-t2)][(t1-t2)] = A[(t1-t2)][(t1-t2)] - A[(t1-t2)][t2] * A[(t1-t2)][t2];;
+            }
+            if (t1%2 == 0) {
+                A[(t1/2)][(t1/2)] = SQRT_FUN(A[(t1/2)][(t1/2)]);;
+            }
+        }
+        for (t1=_PB_N;t1<=2*_PB_N-3;t1++) {
+            lbp=t1-_PB_N+1;
+            ubp=floord(t1-1,2);
+#pragma omp parallel for private(lbv,ubv,t3)
+            for (t2=lbp;t2<=ubp;t2++) {
+                for (t3=0;t3<=t2-1;t3++) {
+                    A[(t1-t2)][t2]=A[(t1-t2)][t2]-A[(t1-t2)][t3]*A[t2][t3];;
+                }
+                A[(t1-t2)][t2] = A[(t1-t2)][t2] / A[t2][t2];;
+                A[(t1-t2)][(t1-t2)] = A[(t1-t2)][(t1-t2)] - A[(t1-t2)][t2] * A[(t1-t2)][t2];;
+            }
+            if (t1%2 == 0) {
+                A[(t1/2)][(t1/2)] = SQRT_FUN(A[(t1/2)][(t1/2)]);;
+            }
+        }
+        if (_PB_N >= 2) {
+            A[(_PB_N-1)][(_PB_N-1)] = SQRT_FUN(A[(_PB_N-1)][(_PB_N-1)]);;
+        }
+    }
+
+}
+
 
 
 int run()

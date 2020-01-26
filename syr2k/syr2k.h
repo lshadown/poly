@@ -8,6 +8,8 @@
 extern double run_syr2k();
 extern double run_syr2k_pa();
 extern double run_syr2k_trans_pa();
+extern double run_syr2k_trans_tiling();
+
 
 /* Default to LARGE_DATASET. */
 # if !defined(MINI_DATASET) && !defined(SMALL_DATASET) && !defined(MEDIUM_DATASET) && !defined(LARGE_DATASET) && !defined(EXTRALARGE_DATASET)

@@ -7,6 +7,7 @@
 
 extern double run_symm();
 extern double run_symm_pa();
+extern double run_symm_trans_pa();
 
 
 /* Default to LARGE_DATASET. */

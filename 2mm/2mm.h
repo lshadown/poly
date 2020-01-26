@@ -7,6 +7,9 @@
 extern double run_2mm();
 extern double run_2mm_pa();
 extern double run_2mm_trans_pa();
+extern double run_2mm_tile_trans();
+extern double run_2mm_tile();
+
 
 
 
